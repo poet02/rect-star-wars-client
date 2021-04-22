@@ -1,14 +1,16 @@
 import React, {  useState } from 'react'
 import { cache, searchVar } from '../cache';
-import * as getPeople from '../operations/queries/__generated__/GetStarWarsCharacters';//type definition
+import * as getPeople from '../operations/queries/__generated__/StarWarsCharacters';//type definition
+import {  Button } from 'react-bootstrap'
 
 
 
 export const Navbar = () => {
     //use type from generated
-    const [data, setData] = useState<getPeople.GetStarWarsCharactersVariables>({
+    const [data, setData] = useState<getPeople.StarWarsCharactersVariables>({
         search: "",
     });
+
     function searchPeople() {
         cache.evict({ fieldName: 'getPeople' });
         cache.gc();
@@ -19,12 +21,16 @@ export const Navbar = () => {
         setData({ search });
     }
     return (
-        <div className='navbar'>
+        <div className='navbar' style={{position: 'sticky'}}>
             <h1>
-                <i className='fas fa-code'></i> TapConnector
+                <i className='fas fa-code'></i> Star Wars Characters
             </h1>
-            <span><input onChange={onchange} type='text' /></span>
-            <span><button onClick={searchPeople}> search</button></span>
+            <span>
+                <input className="input-field" placeholder='search for characters' onChange={onchange} type='text' 
+                    style={{marginRight: '12px'}}>
+                </input>
+                <Button onClick={searchPeople}> search</Button>
+            </span>
         </div>
     )
 }
