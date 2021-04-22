@@ -1,6 +1,6 @@
 import  { useState } from 'react'
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { searchVar, cache } from '../cache';
+import { totalPeopleVar, showingPeopleVar, searchVar } from '../cache';
 import * as getPeople from '../operations/queries/__generated__/StarWarsCharacters';//type definition
 import { GET_STAR_WARS_CHARACTERS } from '../operations/queries/getStarWarsCharacters'; //query or action
 import { Spinner, Button, Modal } from 'react-bootstrap'
@@ -52,9 +52,14 @@ export const Landing = () => {
         setShow(true);
     };
 
-    if (loading || !data?.getPeople?.results) return <div className='spinner-container'>
+    if (loading || !data?.getPeople?.results) {
+        return <div className='spinner-container'>
         <Spinner animation="border" />;
         </div>
+    }
+    totalPeopleVar(data.getPeople.count as number)
+    showingPeopleVar(data.getPeople.results.length as number)
+
     return (
         <>
             <ul className="list-group">
@@ -66,9 +71,6 @@ export const Landing = () => {
                     >{p.name}</li>
                 ))}
             </ul>
-            <div style={{background: '#343a40', color: 'white'}}>
-                {'showing '} {data.getPeople.results.length}{' of '}{data.getPeople.count}{' results'}
-            </div>
             <Button variant="primary"
                 disabled={isLoadingMore}
                 hidden={!data.getPeople.next}
