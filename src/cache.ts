@@ -30,3 +30,5 @@ export const cache: InMemoryCache = new InMemoryCache({
 
 //apollo reactive variable
 export let searchVar = makeVar<string>('');
+export let totalPeopleVar = makeVar<number>(0);
+export let showingPeopleVar = makeVar<number>(0);

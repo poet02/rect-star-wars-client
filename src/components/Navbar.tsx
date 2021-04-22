@@ -33,7 +33,7 @@ export const Navbar = () => {
     return (
         <div className='navbar' style={{ position: 'sticky' }}>
             <h1>
-                <i className='fas fa-code'></i> Star Wars Characters
+                <i className='fas fa-code'></i> Star Wars Peeps
             </h1>
             <span>
                 <form>
