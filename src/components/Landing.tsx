@@ -1,4 +1,4 @@
-import  { useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { totalPeopleVar, showingPeopleVar, searchVar } from '../cache';
 import * as getPeople from '../operations/queries/__generated__/StarWarsCharacters';//type definition
@@ -14,7 +14,6 @@ export const Landing = () => {
                     search: useReactiveVar(searchVar),
                     page: 1
                 }
-
             });
 
     const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -33,12 +32,6 @@ export const Landing = () => {
 
     const handleClose = () => setShow(false);
     const handleShow = (p: getPeople.StarWarsCharacters_getPeople_results) => {
-        let noun = "it"
-        if (p.gender === "male") {
-            noun = "he";
-        } else if(p.gender === "female") {
-            noun = "she"
-        }
 
         setPersonData({
             ...p,
@@ -57,8 +50,8 @@ export const Landing = () => {
         <Spinner animation="border" />;
         </div>
     }
-    totalPeopleVar(data.getPeople.count as number)
-    showingPeopleVar(data.getPeople.results.length as number)
+    totalPeopleVar(data.getPeople.count as number);
+    showingPeopleVar(data.getPeople.results.length);
 
     return (
         <>
