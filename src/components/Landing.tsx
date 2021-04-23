@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react'
+import  { useState } from 'react'
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { totalPeopleVar, showingPeopleVar, searchVar } from '../cache';
 import * as getPeople from '../operations/queries/__generated__/StarWarsCharacters';//type definition

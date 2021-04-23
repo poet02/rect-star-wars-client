@@ -12,12 +12,12 @@ export const Navbar = () => {
     const [data, setData] = useState<getPeople.StarWarsCharactersVariables>({
         search: "",
     });
-    const showing = useReactiveVar(showingPeopleVar);
-    const total = useReactiveVar(totalPeopleVar);
-    let resString = 'result';
-    if (total > 1) {
-        resString += 's';
-    } 
+    // const showing = useReactiveVar(showingPeopleVar);
+    // const total = useReactiveVar(totalPeopleVar);
+    // let resString = 'result';
+    // if (total > 1) {
+    //     resString += 's';
+    // } 
 
     function searchPeople(e: any) {
         e.preventDefault();
@@ -43,9 +43,9 @@ export const Navbar = () => {
                     <Button type='submit' onClick={searchPeople}> search</Button>
                 </form>
             </span>
-            <div hidden={!showing}>
+            {/* <div hidden={!showing}>
                 {'showing '} {showing}{' of '}{total}{' '} {resString}
-            </div>
+            </div> */}
         </div>
     )
 }
