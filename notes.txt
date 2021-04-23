@@ -1,0 +1,29 @@
+weather boiler plater apollo graphql fireship
+
+Add gentypescript ben
+
+"gen-types": "apollo-codegen introspect-schema http://localhost:4000 --output schema.json && apollo-codegen generate src/**/*.ts --schema schema.json --target typescript --output src/operation-result-types.ts"
+
+
+use this after ql-schema has been set
+ npx apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --tagName=gql
+
+
+npm i styled-components
+
+-------------------server------------------------------------------
+netify lambda functions 
+
+in server folder
+options
+11
+npm install --save apollo-server-lambda graphql....
+
+
+2:
+heroku login
+heroku create
+https://whispering-oasis-61957.herokuapp.com/ | https://git.heroku.com/whispering-oasis-61957.git
+
+
+
