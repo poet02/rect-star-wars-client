@@ -7,7 +7,7 @@ import { Spinner, Button, Modal } from 'react-bootstrap'
 
 export const Landing = () => {
 
-    const { data, loading, error, fetchMore
+    const { data, loading, fetchMore
     } = useQuery<getPeople.StarWarsCharacters, getPeople.StarWarsCharactersVariables>
             (GET_STAR_WARS_CHARACTERS, {
                 variables: {

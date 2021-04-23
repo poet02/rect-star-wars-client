@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { ApolloProvider, ApolloClient, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
+import { ApolloProvider, ApolloClient, NormalizedCacheObject } from '@apollo/client';
 import { cache } from './cache';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
