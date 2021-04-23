@@ -8,15 +8,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  uri: ' https://whispering-oasis-61957.herokuapp.com/graphql',
   cache:cache
 });
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    {/* <React.StrictMode> */}
+    <React.StrictMode>
       <App />
-    {/* </React.StrictMode> */}
+    </React.StrictMode>
   </ApolloProvider>,
   document.getElementById('root')
 );
