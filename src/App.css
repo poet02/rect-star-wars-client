@@ -6,7 +6,8 @@
 
 .list-item {
   cursor: pointer;
-  padding: 3px;
+  margin-left: 10px;
+
 }
 .list-item:hover {
   color: rgb(8, 16, 92);
