@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { totalPeopleVar, showingPeopleVar, cache, searchVar } from '../cache';
+import { totalPeopleVar, showingPeopleVar, cache, searchVar, resetPageVar } from '../cache';
 import { useReactiveVar } from '@apollo/client';
 
 import * as getPeople from '../operations/queries/__generated__/StarWarsCharacters';//type definition
@@ -23,8 +23,11 @@ export const Navbar = () => {
         e.preventDefault();
         cache.evict({ fieldName: 'getPeople' });
         cache.gc();
-        searchVar(data.search as string)
+        searchVar(data.search as string);
+        resetPageVar(true);
+
     }
+
     function onChange(event: React.ChangeEvent<HTMLInputElement>) {
         const search = (event.target as HTMLInputElement).value;
         setData({ search });
@@ -44,7 +47,7 @@ export const Navbar = () => {
                 </form>
             </span>
             <div hidden={!showing}>
-                {'showing '} {showing}{' of '}{total}{' '} {resString}
+                {'Showing '} {showing}{' of '}{total}{' '} {resString}
             </div>
         </div>
     )

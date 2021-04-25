@@ -5,9 +5,14 @@ export const cache: InMemoryCache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
+        searchString: {
+            read (value = "UNKNOWN NAME") { 
+              return value;
+            }
+        },
         getPeople: {
-          keyArgs: false,
-          merge(existing, incoming, { mergeObjects }) {
+         keyArgs: false,
+          merge(existing, incoming) {
             let results: Reference[] = [];
             if (existing && existing.results) {
               console.log('existing', existing)
@@ -18,7 +23,7 @@ export const cache: InMemoryCache = new InMemoryCache({
               results = results.concat(incoming.results);
             }
             return {
-              ...incoming,
+             ...incoming,
               results,
             };
           }
@@ -28,7 +33,7 @@ export const cache: InMemoryCache = new InMemoryCache({
   }
 });
 
-//apollo reactive variable
 export let searchVar = makeVar<string>('');
+export let resetPageVar = makeVar<boolean>(false);
 export let totalPeopleVar = makeVar<number>(0);
 export let showingPeopleVar = makeVar<number>(0);

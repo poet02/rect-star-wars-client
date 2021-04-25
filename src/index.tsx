@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
   uri: ' https://whispering-oasis-61957.herokuapp.com/graphql',
-  cache:cache
+  cache: cache
 });
 
 ReactDOM.render(

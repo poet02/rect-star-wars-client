@@ -1,25 +1,39 @@
-import  { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery, useReactiveVar } from '@apollo/client';
-import { totalPeopleVar, showingPeopleVar, searchVar } from '../cache';
+import { totalPeopleVar, showingPeopleVar, searchVar, resetPageVar } from '../cache';
+// import { searchVar } from '../cache';
 import * as getPeople from '../operations/queries/__generated__/StarWarsCharacters';//type definition
 import { GET_STAR_WARS_CHARACTERS } from '../operations/queries/getStarWarsCharacters'; //query or action
 import { Spinner, Button, Modal } from 'react-bootstrap'
 
 export const Landing = () => {
-
-    const { data, loading, fetchMore
+    const { data, loading, error, fetchMore
     } = useQuery<getPeople.StarWarsCharacters, getPeople.StarWarsCharactersVariables>
             (GET_STAR_WARS_CHARACTERS, {
                 variables: {
                     search: useReactiveVar(searchVar),
                     page: 1
                 }
-            });
+            })
+
+        ;
+    useEffect(() => {
+        //This ensures that namvbar does not update before landing
+        totalPeopleVar(data?.getPeople?.count as number);
+        showingPeopleVar(data?.getPeople?.results?.length);
+    });//add [] as param to runn once
 
     const [isLoadingMore, setIsLoadingMore] = useState(false);
+   
     const [page, setPage] = useState(1);
+    const resetPage =  useReactiveVar(resetPageVar);
+    if (resetPage) {        
+        resetPageVar(false);
+        setPage(1);
+    }
+    
     const [show, setShow] = useState(false);
-
+    const handleClose = () => setShow(false);
     const [personData, setPersonData] = useState<getPeople.StarWarsCharacters_getPeople_results>({
         __typename: "Person",
         name: "",
@@ -30,15 +44,15 @@ export const Landing = () => {
 
     });
 
-    const handleClose = () => setShow(false);
-    const handleShow = (p: getPeople.StarWarsCharacters_getPeople_results) => {
+    
 
+    const handleShow = (p: getPeople.StarWarsCharacters_getPeople_results) => {
         setPersonData({
             ...p,
             name: p.name,
             height: p.height,
             mass: p.mass,
-            gender: p.gender? p.gender : 'unknown',
+            gender: p.gender ? p.gender : 'unknown',
             homeWorld: p.homeWorld ? p.homeWorld : "unknown",
 
         });
@@ -46,13 +60,18 @@ export const Landing = () => {
     };
 
     if (loading || !data?.getPeople?.results) {
-        return <div className='spinner-container'>
-        <Spinner animation="border" />;
-        </div>
-    }
-    totalPeopleVar(data.getPeople.count as number);
-    showingPeopleVar(data.getPeople.results.length);
 
+        return <div className='spinner-container'>
+            <Spinner animation="border" />;
+        </div>
+    } if (!loading && !data?.getPeople?.count) {
+        return  <div> No results could be found</div>
+    }
+    if (error) {
+        setIsLoadingMore(false);
+        return <p>ERROR</p>;
+    }
+    
     return (
         <>
             <ul className="list-group">
@@ -66,15 +85,21 @@ export const Landing = () => {
             </ul>
             <Button variant="primary"
                 disabled={isLoadingMore}
-                hidden={!data.getPeople.next}
+                hidden={data?.getPeople?.results.length === data?.getPeople?.count}
                 onClick={async () => {
                     const pageNum = page + 1;
+                    console.log('pageIn',pageNum)
+                    // pageVar(pageNum)
                     setPage(pageNum);
                     setIsLoadingMore(true);
                     await fetchMore({
-                        variables: { page: pageNum },
+                        variables: { page: pageNum},
                     })
                     setIsLoadingMore(false);
+                    // totalPeopleVar(data?.getPeople?.count as number);
+                    // let num = data?.getPeople?.results.length? 1: 2
+                    // showingPeopleVar(data?.getPeople?.results.length as number);
+                    // showingPeopleVar(1);
                 }
                 }>
                 {data.getPeople.results && (
@@ -83,10 +108,10 @@ export const Landing = () => {
                         : 'Load More'
                 )}
             </Button>
-            
+
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>More Details</Modal.Title>
+                    <Modal.Title>More Details</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <p>{"Name: "}{personData.name}</p>
@@ -96,8 +121,8 @@ export const Landing = () => {
                     <p>{"Home World: "}{personData.homeWorld}</p>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Close
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
                 </Button>
                 </Modal.Footer>
             </Modal>
