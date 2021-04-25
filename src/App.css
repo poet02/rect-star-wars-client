@@ -27,13 +27,8 @@
 }
 
 .spinner-container {
-  padding-left: 50%;
-  padding-top: 59%;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  position: absolute;
-  height: calc(100% - 30px);
+  margin-top: 24vh;
+  margin-left: 50%;
+  padding-bottom: -10%;
 }
 
