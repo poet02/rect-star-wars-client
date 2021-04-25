@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { totalPeopleVar, showingPeopleVar, searchVar, resetPageVar } from '../cache';
-// import { searchVar } from '../cache';
 import * as getPeople from '../operations/queries/__generated__/StarWarsCharacters';//type definition
 import { GET_STAR_WARS_CHARACTERS } from '../operations/queries/getStarWarsCharacters'; //query or action
 import { Spinner, Button, Modal } from 'react-bootstrap'
@@ -18,7 +17,7 @@ export const Landing = () => {
 
         ;
     useEffect(() => {
-        //This ensures that namvbar does not update before landing
+        //This ensures that navbar does not update before landing
         totalPeopleVar(data?.getPeople?.count as number);
         showingPeopleVar(data?.getPeople?.results?.length);
     });//add [] as param to runn once
@@ -89,17 +88,12 @@ export const Landing = () => {
                 onClick={async () => {
                     const pageNum = page + 1;
                     console.log('pageIn',pageNum)
-                    // pageVar(pageNum)
                     setPage(pageNum);
                     setIsLoadingMore(true);
                     await fetchMore({
                         variables: { page: pageNum},
                     })
                     setIsLoadingMore(false);
-                    // totalPeopleVar(data?.getPeople?.count as number);
-                    // let num = data?.getPeople?.results.length? 1: 2
-                    // showingPeopleVar(data?.getPeople?.results.length as number);
-                    // showingPeopleVar(1);
                 }
                 }>
                 {data.getPeople.results && (
